@@ -6,6 +6,15 @@ import svgr from 'vite-plugin-svgr';
 export default defineConfig({
   server: {
     port: 7000,
+    proxy: {
+      // Forwards REST/SSE calls to the local gateway during `npm run dev`,
+      // so the app works without seeding the `ORIGINAL` cookie that
+      // `getServerUrl` reads in production.
+      '/rest': {
+        target: 'http://localhost:8080',
+        changeOrigin: true,
+      },
+    },
   },
   plugins: [
     react(),

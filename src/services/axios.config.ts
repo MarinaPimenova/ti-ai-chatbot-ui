@@ -1,7 +1,6 @@
 // src/services/axios.config.ts
 import axios, { AxiosError } from 'axios';
 import { type NotificationEnums, NotificationType } from './notifications.enum';
-import { ROUTE } from '../router/router.enum';
 import { useNetworkStore } from '../store/network/network.store';
 import { getServerUrl } from './utils.service.ts';
 
@@ -41,7 +40,7 @@ export const openNotificationWithIcon = (
 
 const requestInterceptor = (config: any) => config;
 
-export const setupInterceptors = (navRef: any, notifyApi: any) => {
+export const setupInterceptors = (notifyApi: any) => {
     protectedApi.interceptors.request.use(requestInterceptor);
     publicApi.interceptors.request.use(requestInterceptor);
 
@@ -52,31 +51,15 @@ export const setupInterceptors = (navRef: any, notifyApi: any) => {
             (response) => response,
             (error: AxiosError<any>) => {
                 if (error) {
-                    // Check if request explicitly disabled automatic auth redirects
-                    const shouldSkipAuthRedirect = (error.config as any)?.skipAuthRedirect;
-
                     // 1. Backend Service Unavailable / Network Connection Failed
                     if (error.code === 'ERR_NETWORK' || !error.response) {
                         useNetworkStore.getState().setNetworkError(true);
-                        if (navRef.current && !shouldSkipAuthRedirect) {
-                            console.log(`Interceptor: ERR_NETWORK was caught`);
-                            return navRef.current(ROUTE.ERROR);
-                        }
                         return Promise.reject(error);
                     }
 
-                    // 2. Authentication Expiry / Unauthenticated (401 / 403)
-                    if (error.response.status === 401 || error.response.status === 403) {
-                        // Only redirect to /relogin if skipAuthRedirect is NOT set
-                        if (navRef.current && !shouldSkipAuthRedirect) {
-                            console.log(`Interceptor: 401 was caught`);
-                            return navRef.current(ROUTE.RE_LOGIN);
-                        }
-                        return Promise.reject(error);
-                    }
+                    useNetworkStore.getState().clearNetworkError();
 
-                    // 3. Bad Requests & General API Errors (e.g., 400 Bad Request)
-                    const errorCode = error.code || `ERR_${error.response.status}`;
+                    // 2. Bad Requests & General API Errors
                     const errorMessage = error.response.data?.errorMessage;
 
                     if (errorMessage && !errorMessage.includes('Invalid pattern value')) {
@@ -87,11 +70,6 @@ export const setupInterceptors = (navRef: any, notifyApi: any) => {
                             errorMessage,
                             NotificationType.error
                         );
-                    }
-
-                    if (navRef.current && !shouldSkipAuthRedirect) {
-                        console.log(`Interceptor: ERROR was caught`);
-                        return navRef.current(`${ROUTE.ERROR}/${errorCode}`);
                     }
                 }
                 return Promise.reject(error);

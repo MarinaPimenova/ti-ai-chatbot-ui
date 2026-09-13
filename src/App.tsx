@@ -1,11 +1,13 @@
 import './App.css'
-import {Routes} from "./router/router.tsx";
+import { Interceptor } from './components/interceptor';
+import { ChatPage } from './pages/chat-page';
 
 function App() {
 
     return (
         <>
-            <Routes/>
+            <Interceptor/>
+            <ChatPage/>
         </>
     )
 }

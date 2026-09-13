@@ -1,0 +1,5 @@
+### Delete a chat (ChatController)
+DELETE {{gatewayUrl}}/rest/v1/ai-orchestrator/chat?conversationId={{conversationId}}
+
+### Alternate: call the ai-orchestrator service directly, bypassing the gateway
+# DELETE {{aiOrchestratorUrl}}/rest/v1/chat?conversationId={{conversationId}}

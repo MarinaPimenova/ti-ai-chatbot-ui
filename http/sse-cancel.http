@@ -1,0 +1,5 @@
+### Cancel a single subscription (SseController)
+DELETE {{gatewayUrl}}/rest/v1/ai-orchestrator/sse/subscription/{{conversationId}}/{{questionId}}
+
+### Alternate: call the ai-orchestrator service directly, bypassing the gateway
+# DELETE {{aiOrchestratorUrl}}/rest/v1/sse/subscription/{{conversationId}}/{{questionId}}

@@ -1,0 +1,17 @@
+### Ask a question (QuestionController)
+# Returns { conversationId, questionId, question } — the questionId is needed by
+# sse-subscribe.http / sse-trigger.http / feedback.http.
+POST {{gatewayUrl}}/rest/v1/ai-orchestrator/question?conversationId={{conversationId}}
+Content-Type: application/json
+
+{
+  "question": "What is dependency injection?"
+}
+
+### Alternate: call the ai-orchestrator service directly, bypassing the gateway
+# POST {{aiOrchestratorUrl}}/rest/v1/question?conversationId={{conversationId}}
+# Content-Type: application/json
+#
+# {
+#   "question": "What is dependency injection?"
+# }

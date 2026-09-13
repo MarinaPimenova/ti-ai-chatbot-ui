@@ -1,22 +1,57 @@
-import { publicApi} from "./axios.config.ts";
+import { publicApi } from './axios.config';
+import { getServerUrl } from './utils.service.ts';
+import type {
+    AskQuestionRequest,
+    AskQuestionResponse,
+    CancelSubscriptionsRequest,
+    CreateChatRequest,
+    FeedbackRequest,
+    RenameChatRequest,
+    SseAnswerEvent,
+} from '../interfaces/chat.interface';
 
-const AI_ORCHESTRATOR_URL = '/rest/v1/ai-orchestrator/question?conversationId=c3a1e9f0-1b2d-4a3c-9e21-8f9b3d5a7c11';
-const AI_ORCHESTRATOR_SSE_SUBSCRIPTION_URL = '/rest/v1/ai-orchestrator/sse/subscription/c3a1e9f0-1b2d-4a3c-9e21-8f9b3d5a7c11/10432';
-const AI_ORCHESTRATOR_SSE_QUESTION_URL = '/rest/v1/ai-orchestrator/sse/question?conversationId=c3a1e9f0-1b2d-4a3c-9e21-8f9b3d5a7c11&questionId=10432';
+const AI_ORCHESTRATOR_BASE = '/rest/v1/ai-orchestrator';
 
-
-export const askQuestion = (?) => {
-    return publicApi.post<(AI_ORCHESTRATOR_URL, ?);
-};
-
-export const sseSubscription = () => {
-    return publicApi.get<?>(
-        AI_ORCHESTRATOR_SSE_SUBSCRIPTION_URL
+// POST /rest/v1/ai-orchestrator/question?conversationId=
+export const askQuestion = (conversationId: string, payload: AskQuestionRequest) => {
+    return publicApi.post<AskQuestionResponse>(
+        `${AI_ORCHESTRATOR_BASE}/question`,
+        payload,
+        { params: { conversationId } }
     );
 };
 
-export const sseQuestion = () => {
-    return publicApi.get<>(
-        AI_ORCHESTRATOR_SSE_QUESTION_URL);
+// POST /rest/v1/ai-orchestrator/lp/chat?conversationId=
+export const createChatAndStoreQuestion = (conversationId: string, payload: CreateChatRequest) => {
+    return publicApi.post<string>(
+        `${AI_ORCHESTRATOR_BASE}/lp/chat`,
+        payload,
+        { params: { conversationId } }
+    );
 };
 
+// POST /rest/v1/ai-orchestrator/chat/name?conversationId=
+export const renameChat = (conversationId: string, payload: RenameChatRequest) => {
+    return publicApi.post<void>(
+        `${AI_ORCHESTRATOR_BASE}/chat/name`,
+        payload,
+        { params: { conversationId } }
+    );
+};
+
+// DELETE /rest/v1/ai-orchestrator/chat?conversationId=
+export const deleteChat = (conversationId: string) => {
+    return publicApi.delete<void>(
+        `${AI_ORCHESTRATOR_BASE}/chat`,
+        { params: { conversationId } }
+    );
+};
+
+// POST /rest/v1/ai-orchestrator/feedback?conversationId=
+export const submitFeedback = (conversationId: string, payload: FeedbackRequest) => {
+    return publicApi.post<void>(
+        `${AI_ORCHESTRATOR_BASE}/feedback`,
+        payload,
+        { params: { conversationId } }
+    );
+};

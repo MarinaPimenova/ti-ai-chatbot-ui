@@ -1,0 +1,7 @@
+### Trigger answer processing (SseController)
+# Tells the backend to start producing the answer for a questionId that already
+# has a listener (see sse-subscribe.http, which should be opened first).
+GET {{gatewayUrl}}/rest/v1/ai-orchestrator/sse/question?conversationId={{conversationId}}&questionId={{questionId}}
+
+### Alternate: call the ai-orchestrator service directly, bypassing the gateway
+# GET {{aiOrchestratorUrl}}/rest/v1/sse/question?conversationId={{conversationId}}&questionId={{questionId}}

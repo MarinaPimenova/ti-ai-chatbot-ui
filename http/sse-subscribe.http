@@ -1,0 +1,9 @@
+### Subscribe to the answer stream (SseController)
+# text/event-stream — run ask-question.http first and fill in the returned questionId.
+# Open this request and leave it running, then fire sse-trigger.http in another tab.
+GET {{gatewayUrl}}/rest/v1/ai-orchestrator/sse/subscription/{{conversationId}}/{{questionId}}
+Accept: text/event-stream
+
+### Alternate: call the ai-orchestrator service directly, bypassing the gateway
+# GET {{aiOrchestratorUrl}}/rest/v1/sse/subscription/{{conversationId}}/{{questionId}}
+# Accept: text/event-stream
