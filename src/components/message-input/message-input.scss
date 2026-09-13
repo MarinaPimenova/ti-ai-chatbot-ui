@@ -1,0 +1,14 @@
+.message-input {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.75rem;
+
+  padding: 1rem 1.5rem;
+  border-top: 1px solid #e5e5e5;
+  background: #fff;
+
+  &__textarea {
+    flex: 1;
+    resize: none;
+  }
+}

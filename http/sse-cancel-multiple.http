@@ -1,0 +1,20 @@
+### Cancel multiple subscriptions (SseController)
+# Used by the UI on page unload to close every open EventSource in one call.
+POST {{gatewayUrl}}/rest/v1/ai-orchestrator/sse/subscriptions/cancel
+Content-Type: application/json
+
+{
+  "subscriptions": [
+    { "conversationId": "{{conversationId}}", "questionId": {{questionId}} }
+  ]
+}
+
+### Alternate: call the ai-orchestrator service directly, bypassing the gateway
+# POST {{aiOrchestratorUrl}}/rest/v1/sse/subscriptions/cancel
+# Content-Type: application/json
+#
+# {
+#   "subscriptions": [
+#     { "conversationId": "{{conversationId}}", "questionId": {{questionId}} }
+#   ]
+# }

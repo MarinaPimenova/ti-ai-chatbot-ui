@@ -1,0 +1,17 @@
+### Create chat + store first question (ChatController: lp/chat)
+# Registers the chat itself. Returns plain text "Ok" — no questionId, so this call
+# alone can't drive the SSE flow; ask-question.http is still needed for that.
+POST {{gatewayUrl}}/rest/v1/ai-orchestrator/lp/chat?conversationId={{conversationId}}
+Content-Type: application/json
+
+{
+  "question": "What is dependency injection?"
+}
+
+### Alternate: call the ai-orchestrator service directly, bypassing the gateway
+# POST {{aiOrchestratorUrl}}/rest/v1/lp/chat?conversationId={{conversationId}}
+# Content-Type: application/json
+#
+# {
+#   "question": "What is dependency injection?"
+# }

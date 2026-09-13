@@ -1,0 +1,15 @@
+### Rename a chat (ChatController)
+POST {{gatewayUrl}}/rest/v1/ai-orchestrator/chat/name?conversationId={{conversationId}}
+Content-Type: application/json
+
+{
+  "newName": "Dependency injection basics"
+}
+
+### Alternate: call the ai-orchestrator service directly, bypassing the gateway
+# POST {{aiOrchestratorUrl}}/rest/v1/chat/name?conversationId={{conversationId}}
+# Content-Type: application/json
+#
+# {
+#   "newName": "Dependency injection basics"
+# }

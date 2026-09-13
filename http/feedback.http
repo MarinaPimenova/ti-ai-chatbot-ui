@@ -1,0 +1,18 @@
+### Submit feedback (QuestionController)
+# Run ask-question.http first and fill in the returned questionId.
+POST {{gatewayUrl}}/rest/v1/ai-orchestrator/feedback?conversationId={{conversationId}}
+Content-Type: application/json
+
+{
+  "questionId": {{questionId}},
+  "feedback": "helpful"
+}
+
+### Alternate: call the ai-orchestrator service directly, bypassing the gateway
+# POST {{aiOrchestratorUrl}}/rest/v1/feedback?conversationId={{conversationId}}
+# Content-Type: application/json
+#
+# {
+#   "questionId": {{questionId}},
+#   "feedback": "helpful"
+# }
